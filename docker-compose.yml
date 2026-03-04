@@ -18,7 +18,7 @@ services:
   retail-frontend:
   
     build: .
-    container_name: retail-frontend
+    container_name: retail-frontend-new
     ports:
       - "3016:3000"
     env_file:
