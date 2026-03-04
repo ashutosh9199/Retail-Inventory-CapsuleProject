@@ -1,4 +1,4 @@
-version: "2.2"
+version: "3.8"
 
 services:
   mysql:
@@ -8,30 +8,26 @@ services:
       MYSQL_DATABASE: capsule_db
       MYSQL_USER: capsule_user
       MYSQL_PASSWORD: retailpass
-    networks:
-      - retail-network
+    ports:
+      - "3306:3306"
+   
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init-db.sql:/docker-entrypoint-initdb.d/0-init.sql
 
   retail-frontend:
   
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     container_name: retail-frontend
     ports:
-      - "30016:3000"
-    networks:
-      - retail-network
+      - "3016:3000"
     env_file:
       - .env
+    depends_on:
+      - mysql
     volumes:
       - retail_data:/usr/share/nginx/html  
 
-networks:
-  retail-network:
-    driver: bridge
 
 volumes:
   mysql_data:
